@@ -48,7 +48,7 @@ public class UserImpl implements User{
 	}	
 
 	@Override
-	public void cartList(String userId) {
+	public void cartList() {
 		System.out.println("\n= = = = = = = = 상 품 목 록 = = = = = = = =");
 		System.out.println("-----| 번호     이름     가격     수량 |-----\n");
 		for(int key : UserProduct.userMap.keySet()) {//장바구니 안의 상품들
@@ -65,7 +65,8 @@ public class UserImpl implements User{
 		//메인화면으로 돌아갑니다.
 	}
 	@Override
-	public void cartAdd(String userId) {
+	public void cartAdd() {
+
 		System.out.println("\n= = = = = = = = 상 품 목 록 = = = = = = = =");
 		System.out.println("-----| 번호     이름     가격     수량 |-----\n");
 
@@ -88,25 +89,28 @@ public class UserImpl implements User{
 					String name = Product.productMap.get(menuNo).getProductName();
 					int price = Product.productMap.get(menuNo).getPrice();
 					
-					this.userId = userId;
-					UserProduct.userMap.put(menuNo, new UserProduct(menuNo, price, count, name, userId));
+					//this.userId = userId;
 					//상품 담은후 갯수 수정
 					int totalCount = Product.productMap.get(menuNo).getCount();
 					//상품갯수 빼주기  *
-					Product.productMap.put(menuNo, new Product(menuNo,price,totalCount-count,name));
-					
-					System.out.println("\n= = = = = = = = = = = = = = = = = = = =");
-					System.out.println("-------- 장바구니 에 추가 되었습니다. --------");
-					System.out.println("= = = = = = = = = = = = = = = = = = = =\n");
+					if(count <= 0 || totalCount - count < 0) {
+						System.out.println("수량을 확인해주세요.");
+					}else {
+						Product.productMap.put(menuNo, new Product(menuNo,price,totalCount-count,name));
+						UserProduct.userMap.put(menuNo, new UserProduct(menuNo, price, count, name, userId));
+						System.out.println("\n= = = = = = = = = = = = = = = = = = = =");
+						System.out.println("-------- 장바구니 에 추가 되었습니다. --------");
+						System.out.println("= = = = = = = = = = = = = = = = = = = =\n");		
+					}		
 					menu.userCartMenu();
 				}else {
 					System.out.println("잘못 입력하셨습니다.");
-					cartAdd(userId);
+					cartAdd();
 				}		
 				
 			} catch(Exception e) {
-				System.out.println(" 다시 입력해주세요.");
-				cartList(userId);
+				System.out.println("ff 다시 입력해주세요.");
+				cartList();
 			}
 			
 			break;

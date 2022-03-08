@@ -30,6 +30,9 @@ public class MenuImpl implements Menu, Code{
 	
 	@Override 
 	public void init() {//샘플 데이터 넣기
+		
+			
+		
 		Product.productMap.put(123, new Product(123,2500,200,"소고기죽"));
 		Product.productMap.put(124, new Product(124,2000,200,"야채죽"));
 		Product.productMap.put(125, new Product(125,3000,200,"전복죽"));
@@ -69,9 +72,9 @@ public class MenuImpl implements Menu, Code{
 			break;
 		case USER_GOODS : 
 			break;
-		case USER_CART_LIST : user.cartList(userId);
+		case USER_CART_LIST : user.cartList();
 			break;
-		case USER_CART_ADD : user.cartAdd(userId);		
+		case USER_CART_ADD : user.cartAdd();		
 			break;			
 		case USER_CART_DEL : user.cartRemove();		
 			break;			
@@ -135,6 +138,7 @@ public class MenuImpl implements Menu, Code{
 		if(UserProduct.join.containsKey(id) && pw.equals(UserProduct.join.get(id))) {
 			System.out.println(" * "+id+"님 환영합니다. * ");
 			this.userId = id;
+			user.setUserId(id);
 			userView();
 		}else {
 			System.out.println(" * 아이디 & 비밀번호 를 확인해주세요.");
@@ -164,7 +168,6 @@ public class MenuImpl implements Menu, Code{
 
 	@Override
 	public void userView() {
-		// TODO Auto-generated method stub
 		System.out.println("\n= = = = = = = = = = = = = = = = = = = =");
 		System.out.println(" ----- * 죽집 에 오신걸 환영합니다.* ----- \n");
 		System.out.println("         [1].쇼핑      [2].로그아웃        ");
@@ -273,5 +276,4 @@ public class MenuImpl implements Menu, Code{
 			userCartMenu();
 		}	
 	}
-
 }
